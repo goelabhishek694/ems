@@ -19,7 +19,7 @@ Motivation for this project came from an internhsip programm by Innovacer, which
 
 **This is the email host receives on checking in of the visitor**
 
-![sms to host](https://cdn1.imggmi.com/uploads/2019/12/1/cbb4c51854d771ee70ef63913449816b-full.jpg)
+![sms](https://cdn1.imggmi.com/uploads/2019/12/1/cbb4c51854d771ee70ef63913449816b-full.jpg?__cf_chl_jschl_tk__=457389240b43adf91287d6a2cbf3a4506ee76076-1575229781-0-AddQSoanNV6L-Bpj0iUXnOm-4YKs0Zbrc0kXOqBeCx5dLCMTP5dDWZonJ1H7BXqBfNctloCDNlxo1q0f5a2ACv4F-_K_FFlxZl4SRdnURZsCQNK35Tj1Xl0OP967_sJv6YtE-ocrekoi73XZsf0woQ0KlHRrB56EBT800RTGnxP4HkkPaKjgusdKIKXUl5_a22yaCofXaV2tbJ1EAcwMhdPgnqjX2wz2HkT-vDamk0jZcj1T5lrrH8EcnLiFfNVGquF159ZXMmFE7Uf8D_cybkHD5Ai9bp4XYrAlUQunHpI_N82a0rtwnou9Sah9tsPWL547SECuCaFhIDvKqci9Ssw)
 
 **This is the SMS host receives on checking in of the visitor**
 
@@ -27,7 +27,7 @@ Motivation for this project came from an internhsip programm by Innovacer, which
 
 **This is the otp visitor receives on checking out**
 
-![email](https://cdn1.imggmi.com/uploads/2019/12/1/bd41b04a82a7000a8f39f2b5db8580c8-full.png)
+![email](https://cdn1.imggmi.com/uploads/2019/12/1/4dfeffac1cc2a3f707410e5570b8228a-full.png)
 
 **This is the email visitor receives on checking out**
 
