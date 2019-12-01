@@ -1,5 +1,5 @@
 {
-  "name": "SummerGeeks",
+  "name": "summergeeks",
   "version": "1.0.0",
   "description": "",
   "main": "script.js",
@@ -15,7 +15,7 @@
   },
   "devDependencies": {},
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start":"node app.js"
   },
   "keywords": [],
   "author": "",
