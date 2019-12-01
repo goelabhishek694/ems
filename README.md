@@ -27,7 +27,7 @@ Motivation for this project came from an internhsip programm by Innovacer, which
 
 **This is the otp visitor receives on checking out**
 
-![email](https://cdn1.imggmi.com/uploads/2019/12/1/4dfeffac1cc2a3f707410e5570b8228a-full.png)
+![email]( https://cdn1.imggmi.com/uploads/2019/12/1/4dfeffac1cc2a3f707410e5570b8228a-full.png)
 
 **This is the email visitor receives on checking out**
 
