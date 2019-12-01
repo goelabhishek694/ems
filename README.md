@@ -31,6 +31,7 @@ Motivation for this project came from an internhsip programm by Innovacer, which
 
 **This is the email visitor receives on checking out**
 
+**View [logbook](https://cdn1.imggmi.com/uploads/2019/12/1/78bb0f5884c27243352d41dd1d017929-full.png) to see the database**
 
 Visit this link [Entry Management Software](https://entrymanagements.herokuapp.com/) to view the working of the project.
 
