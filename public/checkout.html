@@ -10,15 +10,17 @@
 </head>
 <body>
     <div class="container" id="checkOut">
-        <form action="/otp" method="POST">
+        <form action="/otp" method="POST" class="phoneForm">
                 <div class="form-group">
                   <label for="exampleInputEmail1">Phone Number</label>
-                  <input type="number" class="form-control"  placeholder="Enter Phone Number" name="phoneNo">
+                  <input type="number" class="form-control"  placeholder="Enter Phone Number" name="phoneNo" id="phoneInput">
                 </div>
-                <button type="submit" class="btn btn-primary" >Submit</button>
+                <button type="submit" class="btn btn-primary"  id="phoneSubmit">Submit</button>
               </form>
 
               
                 </div>
 </body>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.19.0/axios.js"></script>
+<script src="phoneDetail.js"></script>
 </html>

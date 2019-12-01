@@ -1,7 +1,7 @@
 const mongoose=require("mongoose");
 const validator=require("validator");
 mongoose.connect("mongodb+srv://admin:admin@cluster0-pbwd9.mongodb.net/test?retryWrites=true&w=majority",{useNewUrlParser:true,
-useCreateIndex:true,useUnifiedTopology:true});
+useCreateIndex:true,useUnifiedTopology:true, useFindAndModify: false});
 const userSchema=new mongoose.Schema({
     vname:{
        type:String,

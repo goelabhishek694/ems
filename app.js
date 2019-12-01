@@ -6,15 +6,18 @@ var app = express();
 app.use(express.urlencoded({ extended: true })); // it adds url encoded string into request's body 
 app.use(express.static('public'));
 app.use(express.json());
+app.set('view engine', 'pug');
+app
 var myTime = require('./public/time')
-var otpGenerator = require('./public/otp')
+var otpGenerator = require('./public/otpGenerator')
 // const dataArray = [];
-const userModel=require("./db");
+const userModel = require("./db");
 var sendSms = require('./public/msg');
 var sendMail = require('./public/mail');
 // var getLocation=require('./public/getLocation')
 var outPhone = null;
-var otp;
+var otp=null;
+
 // Base Page 
 app.get("/", function (req, res) {
     res.sendFile(path.join(__dirname + "/public/index.html"));
@@ -23,7 +26,10 @@ app.get("/", function (req, res) {
 
 // Sending SMS and Email to Host after Visitor checks in
 app.post("/submit", async function (req, res) {
-    // console.log(req.body);
+    
+    const { vname, vemail,vphoneno, hname, hemail, hphoneno, visitAdress } = req.body;
+    const guest=await userModel.findOne({vphoneno:vphoneno,checkOutTime:"Pending"});
+    if(!guest){
     smsFlag = 0;
     emailFlag = 0;
     var { date, time } = myTime()
@@ -32,25 +38,24 @@ app.post("/submit", async function (req, res) {
     req.body.date = date
     // req.body.checkOutTime=null
     console.log("submit post method")
-    const { vname, vemail, vphoneno, hname, hemail, hphoneno ,visitAdress} = req.body;
+    
     //   Sending mail 
-    sendMail(hemail, emailFlag, vname, vemail, vphoneno);
+    sendMail(hemail, emailFlag, vname, vemail, vphoneno, null, null, null, null);
     // Sending SMS
     sendSms(9999508409, hphoneno, smsFlag, vname, vemail, vphoneno, null, null, null, null);
     // dataArray.push(req.body);
     console.log(req.body)
-    const user =await userModel.create(req.body);
-    console.log(user);
-    res.json({result:"user verified"});
+    const user = await userModel.create(req.body);
+    // console.log(user);
+    res.json({ result: "user verified" });
+    }
+    else{
+        res.json({result:""})
+    }
     // console.log(dataArray);
 
     // res.sendFile(path.join(__dirname + "/public/index.html"));
 })
-
-// app.post("/formInput", function (req,res){
-//     console.log(req.body);
-//     res.json({result:"user verified"});
-// })
 
 // Enter Phone number
 app.get("/checkout", function (req, res) {
@@ -58,47 +63,65 @@ app.get("/checkout", function (req, res) {
 })
 
 // Get otp if phone number is valid in db
-app.post("/otp", function (req, res) {
-    smsFlag = 1;
-    console.log("otp post method")
+app.post("/otp", async function (req, res) {
     const { phoneNo } = req.body;
-    outPhone = phoneNo;
-    var i;
-    for (i = 0; i < dataArray.length; ++i) {
-        if (dataArray[i]["vphoneno"] == phoneNo) {
-            break;
-        }
+    // phoneNo=parseInt()
+    
+   try{ smsFlag = 1;
+    outPhone=phoneNo;
+    console.log("otp post method")
+    const guest=await userModel.findOne({vphoneno:outPhone,checkOutTime:"Pending"});
+    if(guest){
+        otp = otpGenerator();
+        console.log(otp)
+        sendSms(9999508409, phoneNo, smsFlag, null, null, null, otp);
+        console.log(req.body);
+        res.json({ result: "user verified" });
     }
-     otp = otpGenerator();
-    sendSms(9999508409, phoneNo, smsFlag, null, null, null, otp);
-
-    console.log(req.body);
-    res.sendFile(path.join(__dirname + "/public/otp.html"));
-
+    else{
+        console.log("inside if ");
+        res.json({result: "user not found"});
+    }
+   }
+    catch(err){
+        console.log(err);
+    }
 })
 // OTP validation 
-app.post("/check", function (req, res) {
-    console.log(req.body);
-    res.json({result:"user verified"});
+app.post("/check", async function (req, res) {
     console.log("check post method")
     const { OTP } = req.body;
+    console.log(OTP);
+    console.log(otp);
+
+    try{
     if (OTP === otp) {
         console.log("OTP Validated");
-        var { time } = myTime()
-        var i;
-        for (i = 0; i < dataArray.length; ++i) {
-            if (outPhone == dataArray[i].vphoneno) {
-                dataArray[i].checkOutTime = time;
-                break; // flash message : you have been checked out succesfully and redirect to index.html
-            }
-        }
-        sendMail(dataArray[i].vemail, emailFlag, dataArray[i].vname, null, dataArray[i].vphoneno, dataArray[i].checkinTime, dataArray[i].checkOutTime, dataArray[i].hname, dataArray[i].visitAdress);
-        // req.body.checkOutTime=time;
+        const query = {vphoneno:outPhone,checkOutTime:"Pending"}
+        // const user=await userModel.findOne({vphoneno:outPhone})
+        // const id=user._id;
+        const{time} = myTime()
+        await userModel.findOneAndUpdate(query,{checkOutTime:time})
+        // send Email to visitor
+        const user=await userModel.findOne({checkOutTime:time})
+        const dataArray=user;
+     sendMail (dataArray.vemail, emailFlag, dataArray.vname, null, dataArray.vphoneno, dataArray.checkinTime, dataArray.checkOutTime, dataArray.hname, dataArray.visitAdress);
 
-        res.redirect("/");
+    res.json({result:"checked out succesfully"});
     }
-    res.end("<h1>otp entered is incorrect</h1>")
-    // flash message : OTP incorrrect 
+    else{
+        res.json({result:""});
+    }
+}
+
+catch(err){
+    console.log(err);
+}
+})
+
+app.get("/logbook", async function (req, res) {
+    const users=await userModel.find();
+    res.render("index",{users});
 })
 
 app.listen(3000, function () {
